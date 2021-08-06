@@ -8,6 +8,8 @@ from matplotlib.animation import FuncAnimation
 global pi
 pi = 3.1415926535
 
+#testing github
+
 #degrees to radians
 def dgTR(dg):
     return dg * pi / 180
