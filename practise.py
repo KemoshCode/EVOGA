@@ -21,6 +21,7 @@ def distance(point1, point2):
     #print(f"d is {d}")
     return d
 
+#returns the slope of a line from two points
 def slope(point1, point2):
     x1 = point1[0]
     y1 = point1[1]
@@ -66,6 +67,7 @@ def getAngle(point1, point2):
             return 0
     return rTDg(math.atan(tri[1] / tri[0]))
 
+#finds the angle realtive to the x-axis by finding the angle of the right triangle containing the two points then using  the slope of the hyptoenuse to determine the direction and adjusting the angle accordingly
 def findRelative(point1,point2):
     x1 = point1[0]
     y1 = point1[1]
@@ -109,13 +111,6 @@ def FOVrelative(direction, size):
 
 #checks if a point is within the vision cone of a point
 def checkFOV(fov, fovSize, viewRange, point1, point2):
-    # if pointInCircle(2, point1, point2) == True:
-    #     if distance(point1, point2) == 0:
-    #         return True
-    #     angle = getAngle(point1, point2)
-    #     if angle >= fov[0] and angle <= fov[1]:
-    #         return True
-    # return False
     if pointInCircle(viewRange, point1, point2):
         if distance(point1, point2) == 0:
             return True
@@ -136,39 +131,3 @@ def checkFOV(fov, fovSize, viewRange, point1, point2):
                 return False
     else:
         return False
-
-
-
-# x_data = []
-# y_data = []
-
-# fig, ax = plt.subplots()
-# ax.set_xlim(0,105)
-# ax.set_ylim(0,12)
-# line, = ax.plot(0,0)
-
-# def animation_frame(i):
-#     x_data.append(i * 10)
-#     y_data.append(i)
-
-#     line.set_xdata(x_data)
-#     line.set_ydata(y_data)
-#     return line,
-
-# animation = FuncAnimation(fig, func = animation_frame, frames = np.arange(0, 10, 0.01), interval = 10)
-# plt.show()
-
-# print(pointInCircle(2,[-1,2.4],[1,2]))
-# print(dgTR(13))
-
-point1 = [2,0]
-point2 = [1,0]
-
-# print(findRelative(point1, point2))
-
-print(checkFOV(180,190,2,point1,point2))
-# print(slope([1,1], [2,2]))
-
-# print(getAngle([1.9,0.39], [2,1]))
-
-# print(checkFOV(FOVrelative(-45,90), [1.9,0.39], [2,1]))
