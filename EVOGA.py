@@ -11,6 +11,12 @@ pi = 3.1415926535
 global padding
 padding = 27
 
+#settings
+global hungerRate
+hungerRate = 100
+global genSize
+genSize = 10
+
 class organism:
     def __init__(self, name, x, y, genome, energy):
         self.name = name
@@ -20,6 +26,15 @@ class organism:
         self.energy = energy
     def __str__ (self):
         return "|" + str(self.name).ljust(padding) + "||" + str(self.x).ljust(padding) + "||" + str(self.y).ljust(padding) + "||" + str(self.genome).ljust(padding) + "||" + str(self.energy).ljust(padding) + "|"
+
+class plant:
+    def __init__(self, name, x ,y, energy):
+        self.name = name
+        self.x = x
+        self.y = y
+        self.energy = energy
+    def __str__(self) -> str:
+        return "|" + str(self.name).ljust(padding) + "||" + str(self.x).ljust(padding) + "||" + str(self.y).ljust(padding) + "||" + str(self.energy).ljust(padding) + "|"
 
 #degrees to radians
 def dgTR(dg):
@@ -31,7 +46,7 @@ def formatTableStart(sample):
     string = ""
     for x in kys:
         string += "|" + str(x).ljust(padding) + "|"
-    return string + "\n" + "_" * len(string)
+    return "\n" + string + "\n" + "_" * len(string)
 
 def pFormatTableStart(sample):
     print(formatTableStart(sample))
@@ -71,6 +86,7 @@ def slope(point1, point2):
         return "vert"
     m = (y1 - y2) / (x1 - x2)
     return m
+
 
 #checks if a point is in a circle based on the radius and centre
 def pointInCircle(r,point1,point2):
@@ -140,7 +156,41 @@ def findRelative(point1,point2):
     else:
         print("Uh oh not cool{!!}")
         return -1
-        
+
+def reverseGetAngle(angle):
+    if angle <= 90:
+        return angle
+    elif angle <= 180 and angle >= 90:
+        return 180 - angle
+    elif angle <= 270 and angle >=180:
+        return angle - 180
+    elif angle <= 360 and angle >= 270:
+        return 360 - angle
+    else:
+        print("You have more or less angles then physically possible so good for you and you shouldn;t be here {!!}")
+
+def newPosRel (distance, angle):
+    a = reverseGetAngle(angle)
+    x = distance * math.cos(dgTR(a))
+    y = distance * math.cos(dgTR(a))
+    return [x,y]
+
+def newPos(distance, direction, origin):
+    coords = newPosRel(distance, direction)
+    if direction <= 90:
+        coords[0] = coords[0] * -1
+    elif direction <= 180 and direction >= 90:
+        pass
+    elif direction <= 270 and direction >=180:
+        coords[1] = coords[1] * -1
+    elif direction <= 360 and direction >= 270:
+        coords[1] = coords[1] * -1
+        coords[0] = coords[0] * -1
+    else:
+        print("You have more or less angles then physically possible so good for you and you shouldn;t be here {!!}")
+        coords = ""
+    return [origin[0] + coords[0], origin[1] + coords[1]]
+
 
 #takes the direction or lower side of the view range of a fov and turns it into an array with the lower and upper ranges of that fov realitve to the x axis
 def FOVrelative(direction, size):
@@ -170,6 +220,14 @@ def checkFOV(fov, fovSize, viewRange, point1, point2):
     else:
         return False
 
+def hunger(pop):
+    pop.energy -= hungerRate
+    return pop
+
+def applyStatus(popDict):
+    for index, x in enumerate(popDict):
+        hunger(popDict[index])
+
 def createPop(popSize):
     popDict = {}
     i = -1
@@ -186,16 +244,28 @@ def createPop(popSize):
 popDict = createPop(10)
 # print(formatTableTop("Specimen", ["bruh", "lolipop"]))
 # print(formatTableStart("spec", "1 2 3 4", 3, 100))
-tester = organism("lad", 1,1,[1,1,1,1,1], 32)
-listThing = [tester]
-# print(vars(tester).keys())
-# for i in listThing:
-#     print(i)
-# print(formatTableStart(tester))
-# for index, i in enumerate(popDict):
-#     print(popDict[index])
-# print(tester.__dict__.keys())
-# print(vars(tester).keys())
-showTable(popDict)
-uin = input()
-lookUp(popDict, uin)
+# tester = organism("lad", 1,1,[1,1,1,1,1], 332)
+# tester2= organism("lil lad", 1, 2, [1,22,1,2,12,21,21,2,12,1,2,21,21], 340)
+# plant1 = plant(1,1,1,30)
+# plant2 = plant(2,2,2,60)
+# plantDict = {0: plant1, 1: plant2}
+# showTable(plantDict)
+# testDict = {0: tester, 1: tester2}
+# hunger(tester)
+# lookUp(testDict, 0)
+# listThing = [tester]
+# # print(vars(tester).keys())
+# # for i in listThing:
+# #     print(i)
+# # print(formatTableStart(tester))
+# # for index, i in enumerate(popDict):
+# #     print(popDict[index])
+# # print(tester.__dict__.keys())
+# # print(vars(tester).keys())
+# applyStatus(popDict)
+# showTable(popDict)
+# uin = input()
+# lookUp(popDict, uin)
+
+# print(reverseGetAngle(170))
+print(newPos(1,315,[0,0]))
