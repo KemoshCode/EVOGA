@@ -3,17 +3,51 @@ import numpy as np
 import math
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
+from random import choices, randint, randrange, random
 
 #pi
 global pi
 pi = 3.1415926535
+global padding
+padding = 27
 
-#testing github
-#testing 2
+class organism:
+    def __init__(self, name, x, y, genome, energy):
+        self.name = name
+        self.x = x
+        self.y = y
+        self.genome = genome
+        self.energy = energy
+    def __str__ (self):
+        return "|" + str(self.name).ljust(padding) + "||" + str(self.x).ljust(padding) + "||" + str(self.y).ljust(padding) + "||" + str(self.genome).ljust(padding) + "||" + str(self.energy).ljust(padding) + "|"
 
 #degrees to radians
 def dgTR(dg):
     return dg * pi / 180
+
+
+def formatTableStart(sample):
+    kys = vars(sample).keys()
+    string = ""
+    for x in kys:
+        string += "|" + str(x).ljust(padding) + "|"
+    return string + "\n" + "_" * len(string)
+
+def pFormatTableStart(sample):
+    print(formatTableStart(sample))
+    return
+
+def showTable(popDict):
+    print(formatTableStart(popDict[0]))
+    for index, i in enumerate(popDict):
+        print(popDict[index])
+
+def lookUp(popDict, target):
+    listThing = [popDict[int(target)]]
+    pFormatTableStart(popDict[int(target)])
+    for i in listThing:
+        print(i)
+
 
 #radians to degrees
 def rTDg(rad):
@@ -135,3 +169,33 @@ def checkFOV(fov, fovSize, viewRange, point1, point2):
                 return False
     else:
         return False
+
+def createPop(popSize):
+    popDict = {}
+    i = -1
+    while True:
+        if i >= popSize:
+            break
+        newPop = organism(str(i + 1), randint(0,10), randint(0,10), [1,1,1,0,0,0,1,1,0], randint(0,100))
+        i += 1
+        popDict [i] = newPop
+    return popDict
+
+
+
+popDict = createPop(10)
+# print(formatTableTop("Specimen", ["bruh", "lolipop"]))
+# print(formatTableStart("spec", "1 2 3 4", 3, 100))
+tester = organism("lad", 1,1,[1,1,1,1,1], 32)
+listThing = [tester]
+# print(vars(tester).keys())
+# for i in listThing:
+#     print(i)
+# print(formatTableStart(tester))
+# for index, i in enumerate(popDict):
+#     print(popDict[index])
+# print(tester.__dict__.keys())
+# print(vars(tester).keys())
+showTable(popDict)
+uin = input()
+lookUp(popDict, uin)

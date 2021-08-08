@@ -7,6 +7,28 @@ from matplotlib.animation import FuncAnimation
 global pi
 pi = 3.1415926535
 
+class testOBJ:
+    def __init__(self, size, length, listy):
+        self.size = size
+        self.length = length
+        self.listy = listy
+
+class teesting:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+    def __str__ (self):
+        return self.name.ljust(20) + str(self.age).ljust(10) + "extra"
+
+tester = [teesting("Jhon", 12), teesting("Yun", 17.123456)]
+
+for testeeX in tester:
+    print(testeeX)
+
+tester = testOBJ(38, 20, [31,31,32])
+print(tester.listy)
+
 #degrees to radians
 def dgTR(dg):
     return dg * pi / 180
